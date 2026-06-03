@@ -1,0 +1,15 @@
+# 密钥，绝不入库
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.venv/
+venv/
+
+# macOS
+.DS_Store

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ancient-pilot"
+version = "2.0.0"
+description = "你说人话，它跑命令 —— 自然语言转 shell 命令，由 DeepSeek 驱动"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [{ name = "ywleeo" }]
+keywords = ["cli", "shell", "ai", "deepseek", "natural-language", "自然语言"]
+classifiers = [
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Utilities",
+]
+dependencies = []
+
+[project.scripts]
+ap = "ancient_pilot.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/workshop43/ancient-pilot"
+Issues = "https://github.com/workshop43/ancient-pilot/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ancient_pilot"]
