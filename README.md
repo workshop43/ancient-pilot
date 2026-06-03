@@ -19,10 +19,12 @@ ap "git 撤销上次提交"        → git reset --soft HEAD~1
 ## 装
 
 ```bash
-pipx install git+https://github.com/workshop43/ancient-pilot.git
+pip install git+https://github.com/workshop43/ancient-pilot.git
 ```
 
-装完 `ap` 就进了 PATH，任何目录都能用。没有 pipx 就把 `pipx` 换成 `pip`。
+装完 `ap` 就进了 PATH，任何目录都能用。本工具零依赖，`pip` 足够。
+
+> 若系统报 `externally-managed-environment`，加 `--user`；或改用 `pipx install`（隔离更干净，但要先 `brew install pipx` / `apt install pipx`）。
 
 ## 用
 
