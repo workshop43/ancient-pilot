@@ -1,6 +1,6 @@
 # ancient-pilot
 
-> 你说人话，它跑命令
+> 让 terminal 听懂人话，人人都是 shell 大师
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
@@ -92,3 +92,4 @@ pip install -e .     # 可编辑安装，改完即生效
 ## 原理
 
 人话 → DeepSeek API → shell 命令 → `subprocess` 执行。没有花活。
+
