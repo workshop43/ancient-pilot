@@ -1,4 +1,11 @@
-# ap —— 你说人话，它跑命令
+# ancient-pilot
+
+> 你说人话，它跑命令
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+
+命令行工具 `ap`：把一句人话翻成 shell 命令并直接执行，由 DeepSeek 驱动。零第三方依赖，纯 Python 标准库。
 
 ```bash
 ap "看看 npm 装了啥"        → npm list -g --depth=0
@@ -8,8 +15,6 @@ ap "git 撤销上次提交"        → git reset --soft HEAD~1
 
 ⚡ 67 in / 8 out / 75 total
 ```
-
-一句人话，DeepSeek 翻成 shell 命令，直接跑。零第三方依赖，纯 Python 标准库。
 
 ## 装
 
