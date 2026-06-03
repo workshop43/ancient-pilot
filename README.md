@@ -2,45 +2,53 @@
 
 ```bash
 ap "看看 npm 装了啥"        → npm list -g --depth=0
-ap "哪个端口被占了"          → lsof -i :port
+ap "哪个端口被占了"          → lsof -i :3000
 ap "把图片全转 webp"        → 批量转换
 ap "git 撤销上次提交"        → git reset --soft HEAD~1
 
 ⚡ 67 in / 8 out / 75 total
 ```
 
-自然语言 → DeepSeek → shell 命令 → 直接执行。零第三方依赖，纯标准库。
+一句人话，DeepSeek 翻成 shell 命令，直接跑。零第三方依赖，纯 Python 标准库。
 
 ## 装
 
 ```bash
-# 推荐：pipx，装成独立的全局命令，不污染系统 Python
 pipx install git+https://github.com/workshop43/ancient-pilot.git
-
-# 或者用 pip
-pip install git+https://github.com/workshop43/ancient-pilot.git
 ```
 
-装完 `ap` 就在 PATH 里了，任何目录都能调。
+装完 `ap` 就进了 PATH，任何目录都能用。没有 pipx 就把 `pipx` 换成 `pip`。
 
-## 配
+## 用
 
-**第一次直接用就行**——没配 key 时 `ap` 会自动拉起配置，填完接着把你那句命令跑掉：
+直接说你要干啥。**第一次**跑会让你填一次 API Key，填完原命令紧接着执行：
 
 ```bash
-ap "看看这个目录有啥"
-# 👋 第一次用 ap，先花十秒配一下：
-# ... 填完 key，原命令照常执行
+$ ap "看看这个目录有啥"
+👋 第一次用 ap，先花十秒配一下：
+API Key: sk-xxx        # 回车跳过 URL / 模型，走默认
+✓ 已保存
+... "看看这个目录有啥" 紧接着就跑了
 ```
 
-也能手动随时重配：
+之后再用就没这一步了：
 
 ```bash
-ap setup
+ap "哪个端口被占了"
+ap "把日志里的报错挑出来" --notify   # 结果弹系统通知，不刷屏
 ```
 
-交互式填 API Key 和模型，写到 `~/.config/ancient-pilot/config.json`（权限 600）。
-配置和程序解耦——升级、换目录都不用重配。
+| 命令 | 干啥 |
+| --- | --- |
+| `ap <你想干的事>` | 生成命令并执行 |
+| `ap <…> --notify` | 执行结果弹系统通知 |
+| `ap setup` | 重新配 Key / 模型 |
+| `ap dialog` | 弹输入框（macOS，配快捷键用） |
+| `ap -v` · `ap -h` | 版本 · 帮助 |
+
+## 配置
+
+配置存在 `~/.config/ancient-pilot/config.json`（权限 600），跟程序本体分开——升级、换目录都不用重配。随时 `ap setup` 改：
 
 ```
 ⚡ ap 配置（直接回车保留默认值）
@@ -52,43 +60,27 @@ API Key [未设置]: sk-xxx
 ✓ 已保存到 ~/.config/ancient-pilot/config.json
 ```
 
-也可以用环境变量覆盖（优先级最高）：`AP_API_KEY`、`AP_MODEL`、`AP_API_URL`、`AP_TIMEOUT`。
+模型两个选：
 
-## 用
+- `deepseek-v4-flash` —— 默认，快，便宜
+- `deepseek-v4-pro` —— 质量更好，稍慢
 
-```bash
-ap "看看这个目录有啥"
-ap "哪个端口被占了" --notify    # 结果弹系统通知
-```
+也能用环境变量临时覆盖（优先级最高）：`AP_API_KEY`、`AP_MODEL`、`AP_API_URL`、`AP_TIMEOUT`。
 
-| 命令 | 作用 |
-| --- | --- |
-| `ap <你想干的事>` | 生成并执行命令 |
-| `ap <…> --notify` | 执行结果弹系统通知 |
-| `ap setup` | 一键配置 |
-| `ap dialog` | 弹输入框（macOS，配合全局快捷键用） |
-| `ap -v` / `ap -h` | 版本 / 帮助 |
+## 全局快捷键（macOS）
 
-### 配全局快捷键（macOS）
-
-`ap dialog` 会弹个输入框、执行、弹通知。把它绑到 Raycast / Alfred / Keyboard
-Maestro 的快捷键上，随时随地一个键唤起。
-
-## 配几个模型
-
-- `deepseek-v4-flash`：默认，快，便宜
-- `deepseek-v4-pro`：质量更好，稍慢
+`ap dialog` 弹个输入框：输入 → 执行 → 通知。把它绑到 Raycast / Alfred / Keyboard Maestro 上，任何 App 里一个快捷键唤起。
 
 ## 开发
 
 ```bash
 git clone https://github.com/workshop43/ancient-pilot.git
 cd ancient-pilot
-pip install -e .        # 可编辑安装，改完即生效
+pip install -e .     # 可编辑安装，改完即生效
 ```
+
+代码就两个文件：`config.py` 管配置，`cli.py` 管其余。
 
 ## 原理
 
-你说人话 → DeepSeek API → shell 命令 → `subprocess` 执行。
-
-`src/ancient_pilot/`：`config.py` 管配置，`cli.py` 管一切。没有花活。
+人话 → DeepSeek API → shell 命令 → `subprocess` 执行。没有花活。
