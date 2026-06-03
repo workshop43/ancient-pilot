@@ -25,6 +25,16 @@ pip install git+https://github.com/workshop43/ancient-pilot.git
 
 ## 配
 
+**第一次直接用就行**——没配 key 时 `ap` 会自动拉起配置，填完接着把你那句命令跑掉：
+
+```bash
+ap "看看这个目录有啥"
+# 👋 第一次用 ap，先花十秒配一下：
+# ... 填完 key，原命令照常执行
+```
+
+也能手动随时重配：
+
 ```bash
 ap setup
 ```

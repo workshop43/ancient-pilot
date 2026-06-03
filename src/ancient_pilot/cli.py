@@ -165,10 +165,13 @@ def setup() -> None:
     """交互式一键配置。"""
     cur = config.load()
     print("⚡ ap 配置（直接回车保留默认值）\n")
-    api_url = input(f"API URL [{cur['api_url']}]: ").strip() or cur["api_url"]
-    model = input(f"模型   [{cur['model']}]: ").strip() or cur["model"]
-    hint = _mask(cur["api_key"]) if cur["api_key"] else "未设置"
-    api_key = input(f"API Key [{hint}]: ").strip() or cur["api_key"]
+    try:
+        api_url = input(f"API URL [{cur['api_url']}]: ").strip() or cur["api_url"]
+        model = input(f"模型   [{cur['model']}]: ").strip() or cur["model"]
+        hint = _mask(cur["api_key"]) if cur["api_key"] else "未设置"
+        api_key = input(f"API Key [{hint}]: ").strip() or cur["api_key"]
+    except (KeyboardInterrupt, EOFError):
+        sys.exit("\nap: 已取消")
     if not api_key:
         sys.exit("ap: API Key 不能为空")
 
@@ -236,7 +239,13 @@ def main() -> None:
 
     cfg = config.load()
     if not cfg["api_key"]:
-        sys.exit("ap: 还没配 API Key，先跑 `ap setup`")
+        if not sys.stdin.isatty():
+            # 非交互（管道、快捷键调用等）下没法弹问答，给提示退出
+            sys.exit("ap: 还没配 API Key，先跑 `ap setup`")
+        print("👋 第一次用 ap，先花十秒配一下：\n")
+        setup()
+        print()
+        cfg = config.load()  # setup 已写盘，重新读
 
     cmd, tin, tout = generate_command(query, cfg)
     if not cmd:
