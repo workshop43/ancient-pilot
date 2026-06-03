@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ancient-pilot"
-version = "2.1.0"
+version = "2.2.0"
 description = "你说人话，它跑命令 —— 自然语言转 shell 命令，由 DeepSeek 驱动"
 readme = "README.md"
 requires-python = ">=3.8"

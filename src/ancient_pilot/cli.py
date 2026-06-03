@@ -32,6 +32,7 @@ USAGE = """ap —— 你说人话，它跑命令
   ap <你想干的事>              生成并执行命令
   ap <你想干的事> --notify     结果弹系统通知（配合右键服务/全局快捷键）
   ap setup                    一键配置 API Key 和模型
+  ap reset                    删除配置，恢复默认
   ap dialog                   弹输入框（macOS，配合快捷键用）
   ap -v / --version           版本
   ap -h / --help              帮助
@@ -180,6 +181,26 @@ def setup() -> None:
     print('现在随处可用：ap "看看这个目录有啥"')
 
 
+def reset() -> None:
+    """删除配置文件，恢复默认（下次运行会重新引导配置）。"""
+    if not config.CONFIG_FILE.exists():
+        print("没有配置文件，已经是默认状态。")
+    else:
+        if sys.stdin.isatty():
+            try:
+                ans = input(f"删除 {config.CONFIG_FILE}（含 API Key），恢复默认？[y/N]: ")
+            except (KeyboardInterrupt, EOFError):
+                sys.exit("\nap: 已取消")
+            if ans.strip().lower() not in ("y", "yes"):
+                sys.exit("已取消")
+        config.CONFIG_FILE.unlink()
+        print(f"✓ 已删除 {config.CONFIG_FILE}，恢复默认。")
+
+    for env in ("AP_API_KEY", "DEEPSEEK_API_KEY", "AP_MODEL", "AP_API_URL"):
+        if os.environ.get(env):
+            print(f"⚠ 注意：环境变量 {env} 仍设着，优先级高于配置，会盖过默认值。")
+
+
 def dialog() -> None:
     """macOS 弹输入框，输入后带通知执行——配合全局快捷键/右键服务。"""
     if platform.system() != "Darwin":
@@ -221,6 +242,9 @@ def main() -> None:
         return
     if head == "setup":
         setup()
+        return
+    if head == "reset":
+        reset()
         return
     if head == "dialog":
         dialog()
