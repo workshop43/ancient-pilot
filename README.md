@@ -2,8 +2,7 @@
 
 > 让 terminal 听懂人话，人人都是 shell 大师
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 
 命令行工具 `ap`：把一句人话翻成 shell 命令并直接执行，由 DeepSeek 驱动。零第三方依赖，纯 Python 标准库。
 
