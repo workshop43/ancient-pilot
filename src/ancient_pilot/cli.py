@@ -21,10 +21,15 @@ SYSTEM_PROMPT = (
     "You are a shell command generator. Output ONLY the raw shell command. "
     "No explanation. No markdown. No prefix or suffix. The context includes 'os' "
     "(OS + arch) and 'shell' (current shell). Use platform-native notification tools: "
-    "macOS use osascript, Linux use notify-send, Windows use PowerShell. "
-    "For reminders and scheduled tasks use the platform native scheduler: "
-    "macOS: 'cron' or 'launchd' (launchctl load); Linux: 'at' or 'cron' or 'systemd-run --on-active'; "
-    "Windows: 'schtasks'. Never use 'sleep' for timing it is unreliable."
+    "macOS use osascript, Linux use notify-send, Windows use PowerShell.\n"
+    "For reminders and scheduled tasks:\n"
+    "  - macOS: `echo 'osascript ...' | at now + 1 minute` or `cron` or `launchd`\n"
+    "  - Linux: `at` or `cron` or `systemd-run --on-active`\n"
+    "  - Windows: `schtasks`\n"
+    "CRITICAL RULES:\n"
+    "  - NEVER use `sleep` for timing. It is unreliable and blocks the terminal.\n"
+    "  - NEVER produce intermediate/confirmation notifications. Output only the final command.\n"
+    "  - For a single delayed reminder, output ONE command (e.g. `at` or `echo ... | at`), not a chain."
 )
 
 USAGE = """ap —— 你说人话，它跑命令
